@@ -1,0 +1,12 @@
+FROM ubuntu:latest
+
+RUN apt clean && apt update && apt upgrade -y
+
+RUN apt install -y bind9 bind9utils systemd 
+
+# 開発時に必要なライブラリ
+RUN apt install -y dnsutils
+
+COPY ./cash/conf/named.conf.options /etc/bind/named.conf.options
+
+CMD [ "tail","-f","/dev/null"]

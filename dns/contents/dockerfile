@@ -1,0 +1,7 @@
+FROM ubuntu:latest
+
+RUN apt clean && apt update && apt upgrade -y
+
+RUN apt install -y bind9 bind9utils dnsutils
+
+CMD [ "tail","-f","/dev/null"]

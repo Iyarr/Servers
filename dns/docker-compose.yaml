@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  alpha:
+    build: ./contents
+    container_name: alpha
+    environment:
+      - domain=alpha.jp
+    tty: true
+    stdin_open: true
+    hostname: alpha-contents
+    networks:
+      - dns
+
+  beta:
+    build: ./contents
+    container_name: beta
+    environment:
+      - domain=beta.jp
+    tty: true
+    stdin_open: true
+    hostname: beta-contents
+    networks:
+      - dns
+
+  cash:
+    build: ./cash
+    container_name: cash
+    volumes:
+      - ./cash/conf/named.conf.options:/etc/bind/named.conf.options
+    environment:
+      - domain_alpha=alpha.jp
+      - domain_beta=beta.jp
+    tty: true
+    stdin_open: true
+    hostname: cash
+    networks:
+      - dns
+
+networks:
+  dns:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/16"
